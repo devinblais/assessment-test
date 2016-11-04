@@ -4,20 +4,11 @@ exports.handle = (client) => {
   // Create steps
   const sayHello = client.createStep({
     satisfied() {
-      return Boolean(client.getConversationState().helloSent)
+      return false;
     },
 
     prompt() {
-      client.addResponse('app:response:name:welcome')
-      client.addResponse('app:response:name:provide/documentation', {
-        documentation_link: 'http://docs.init.ai',
-      })
-      client.addResponse('app:response:name:provide/instructions')
-
-      client.updateConversationState({
-        helloSent: true
-      })
-
+      client.addResponse('app:response:name:welcome/select_topic')
       client.done()
     }
   })
@@ -35,10 +26,6 @@ exports.handle = (client) => {
 
   client.runFlow({
     classifications: {
-      // map inbound message classifications to names of streams
-    },
-    autoResponses: {
-      // configure responses to be automatically sent as predicted by the machine learning model
     },
     streams: {
       main: 'onboarding',
